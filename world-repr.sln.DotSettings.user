@@ -6,5 +6,11 @@
     &lt;TestId&gt;NUnit3x::C0243AB1-566F-4BEF-B6DA-6FFC4615146B::net7.0::WorldRepr.Repr.DirectionTests.TestStringEncoder&lt;/TestId&gt;
     &lt;TestId&gt;NUnit3x::C0243AB1-566F-4BEF-B6DA-6FFC4615146B::net7.0::WorldRepr.Repr.DirectionTests&lt;/TestId&gt;
     &lt;TestId&gt;NUnit3x::C0243AB1-566F-4BEF-B6DA-6FFC4615146B::net7.0::WorldRepr.Repr.PositionTests&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::C0243AB1-566F-4BEF-B6DA-6FFC4615146B::net7.0::WorldRepr.World.WorldTest.JsonSerialization&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=71f15bf3_002D177c_002D4131_002D9877_002D2aae43a64e35/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="JsonSerialization" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::C0243AB1-566F-4BEF-B6DA-6FFC4615146B::net7.0::WorldRepr.World.WorldTest.JsonSerialization&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

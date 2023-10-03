@@ -21,8 +21,5 @@
       <Compile Remove="Oi.cs" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="World\" />
-    </ItemGroup>
 
 </Project>

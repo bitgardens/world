@@ -1,0 +1,110 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using WorldRepr.Repr;
+
+namespace WorldRepr.World;
+
+public class World
+{
+    internal ushort _size;
+    internal Topology _topology = new(1);
+    internal Meta _meta = new(1);
+
+    internal World(ushort size)
+    {
+        _size = size;
+    }
+
+    internal World(Topology topology, Meta meta)
+    {
+        _topology = topology;
+        _meta = meta;
+    }
+
+    public static World FromJson(string json)
+    {
+        var options = new JsonSerializerOptions { IncludeFields = true };
+        var worldJson = JsonSerializer.Deserialize<WorldJsonRepr>(json, options);
+        if (worldJson == null)
+            throw new NullReferenceException("Deserialization returned null");
+        return worldJson.ToWorld();
+    }
+
+    public string ToJson()
+    {
+        var worldJson = new WorldJsonRepr(this);
+        return JsonSerializer.Serialize<WorldJsonRepr>(worldJson);
+    }
+}
+
+class WorldJsonRepr
+{
+    [JsonInclude]
+    public Dictionary<string, string> RawTopology { get; set; }
+    [JsonInclude]
+    public Dictionary<string, Tile> RawMeta { get; set; }
+
+    public WorldJsonRepr()
+    {
+        RawTopology = new();
+        RawMeta = new();
+    }
+
+    internal WorldJsonRepr(World w)
+    {
+        RawTopology = w._topology.Entries.ToDictionary(
+            kv => kv.Key.ToId().ToString(),
+            kv => kv.Value.EncodeAsString());
+        RawMeta = w._meta.Entries.ToDictionary(
+            kv => kv.Key.ToId().ToString(),
+            kv => kv.Value);
+    }
+
+    internal World ToWorld()
+    {
+        return new World(Topology(), Meta());
+    }
+
+    internal Topology Topology()
+    {
+        var t = new Topology(RawTopology.Count);
+        foreach (var item in RawTopology)
+        {
+            var position = Position.FromId(uint.Parse(item.Key));
+            var directions = Directions.DecodeFromString(item.Value);
+            t.Entries.Add(position, directions);
+        }
+        return t;
+    }
+
+    internal Meta Meta()
+    {
+        var m = new Meta(RawMeta.Count);
+        foreach (var item in RawMeta)
+        {
+            var position = Position.FromId(uint.Parse(item.Key));
+            m.Entries.Add(position, item.Value);
+        }
+        return m;
+    }
+}
+
+internal class Topology
+{
+    internal Dictionary<Position, Directions> Entries;
+
+    internal Topology(int size)
+    {
+        Entries = new Dictionary<Position, Directions>(size);
+    }
+}
+
+class Meta
+{
+    internal Dictionary<Position, Tile> Entries;
+    
+    internal Meta(int size)
+    {
+        Entries = new Dictionary<Position, Tile>(size);
+    }
+}
