@@ -19,7 +19,17 @@ var w = World.FromJson("""
    }
 """);
 
-Console.WriteLine("parsed: ok");
+Console.WriteLine("parsed: ok\n");
 
-Console.WriteLine("---");
-Console.WriteLine(w.ToJson());
+Console.WriteLine("all walkable nodes:");
+foreach (var n in w.WalkableNodes())
+{
+    Console.WriteLine(n);
+    Console.WriteLine(w.GetMeta(n));
+    Console.WriteLine("neighbors:");
+    foreach (var neighbor in w.WalkableNeighbors(n))
+    {
+        Console.WriteLine($"  {neighbor}");
+    }
+    Console.WriteLine();
+}

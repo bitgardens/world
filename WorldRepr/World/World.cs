@@ -6,19 +6,47 @@ namespace WorldRepr.World;
 
 public class World
 {
-    internal ushort _size;
-    internal Topology _topology = new(1);
-    internal Meta _meta = new(1);
+    internal ushort Size;
+    internal readonly Topology Topology = new(1);
+    internal readonly Meta Meta = new(1);
+
+    /// <summary>
+    /// Returns an enumerable over the walkable neighbors of the given position.
+    /// </summary>
+    public IEnumerable<Position> WalkableNeighbors(Position p)
+    {
+        var d = Topology.Entries[p];
+        if (d.Top()) yield return p.WithY(-1);
+        if (d.Right()) yield return p.WithX(1);
+        if (d.Bottom()) yield return p.WithY(1);
+        if (d.Left()) yield return p.WithX(-1);
+    }
+
+    /// <summary>
+    /// Returns all the walkable nodes in the topology graph.
+    /// </summary>
+    public IEnumerable<Position> WalkableNodes()
+    {
+        return Topology.Entries.Keys;
+    }
+
+    /// <summary>
+    /// Returns the tile at the given position.
+    /// </summary>
+    public Tile GetMeta(Position p)
+    {
+        return Meta.Entries[p];
+    }
 
     internal World(ushort size)
     {
-        _size = size;
+        Size = size;
     }
 
     internal World(Topology topology, Meta meta)
     {
-        _topology = topology;
-        _meta = meta;
+        Topology = topology;
+        Meta = meta;
     }
 
     public static World FromJson(string json)
@@ -52,10 +80,10 @@ class WorldJsonRepr
 
     internal WorldJsonRepr(World w)
     {
-        RawTopology = w._topology.Entries.ToDictionary(
+        RawTopology = w.Topology.Entries.ToDictionary(
             kv => kv.Key.ToId().ToString(),
             kv => kv.Value.EncodeAsString());
-        RawMeta = w._meta.Entries.ToDictionary(
+        RawMeta = w.Meta.Entries.ToDictionary(
             kv => kv.Key.ToId().ToString(),
             kv => kv.Value);
     }

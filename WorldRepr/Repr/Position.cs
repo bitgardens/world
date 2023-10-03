@@ -19,6 +19,21 @@ public readonly struct Position
         Y = y;
     }
 
+    public Position WithX(short deltaX)
+    {
+        return new Position((ushort)(X + deltaX), Y);
+    }
+    
+    public Position WithY(short deltaY)
+    {
+        return new Position(X, (ushort)(Y + deltaY));
+    }
+
+    public Position WithXY(short deltaX, short deltaY)
+    {
+        return new Position((ushort)(X + deltaX), (ushort)(Y + deltaY));
+    }
+
     public uint ToId()
     {
         var y = (uint)Y << 16;
@@ -31,5 +46,10 @@ public readonly struct Position
         var x = id & (~hiMask);
         var y = (id & hiMask) >> 16;
         return new Position((ushort)x, (ushort)y);
+    }
+
+    public override string ToString()
+    {
+        return $"Position(x={X}, y={Y})";
     }
 }

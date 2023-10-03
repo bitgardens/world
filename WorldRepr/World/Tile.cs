@@ -12,4 +12,9 @@ public enum TileKind
 public class Tile
 {
     public TileKind Kind { get; set; }
+
+    public override string ToString()
+    {
+        return $"Tile(kind={Kind})";
+    }
 }
