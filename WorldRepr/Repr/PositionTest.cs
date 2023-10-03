@@ -1,3 +1,5 @@
+using NUnit.Framework;
+
 namespace WorldRepr.Repr;
 
 internal class PositionTests
